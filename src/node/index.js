@@ -2,17 +2,17 @@ const express = require("express");
 const app = express();
 app.use(express.urlencoded({ extended: true }));
 
-const port = 社員番号;
+const port = 5682;
 
 const cors = require("cors");
 app.use(cors());
 
 const { Pool } = require("pg");
 const pool = new Pool({
-  user: "x", // PostgreSQLのユーザー名に置き換えてください
-  host: "x",
-  database: "x", // PostgreSQLのデータベース名に置き換えてください
-  password: "x", // PostgreSQLのパスワードに置き換えてください
+  user: "user_5682", // PostgreSQLのユーザー名に置き換えてください
+  host: "postgres",
+  database: "cm_5682", // PostgreSQLのデータベース名に置き換えてください
+  password: "pass_5682", // PostgreSQLのパスワードに置き換えてください
   port: 5432,
 });
 
