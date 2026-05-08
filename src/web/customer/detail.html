@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>顧客詳細</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="mb-4">顧客詳細</h2>
+        <table class="table table-bordered">
+            <tbody>
+                <tr><th style="width: 150px;">会社名</th><td id="company_name"></td></tr>
+                <tr><th>業種</th><td id="industry"></td></tr>
+                <tr><th>連絡先</th><td id="contact"></td></tr>
+                <tr><th>所在地</th><td id="location"></td></tr>
+                <tr><th>登録日</th><td id="created_date"></td></tr>
+                <tr><th>更新日</th><td id="updated_date"></td></tr>
+            </tbody>
+        </table>
+        <a id="edit-btn" href="#" class="btn btn-primary">編集</a>
+        <button id="delete-btn" class="btn btn-danger">削除</button>
+        <a href="list.html" class="btn btn-secondary">一覧に戻る</a>
+    </div>
+    <script type="module">
+        import config from '../config.js';
+
+        const params = new URLSearchParams(location.search);
+        const customerId = params.get('customer_id');
+
+        fetch(`${config.apiUrl}/customer-detail?customer_id=${customerId}`)
+            .then(res => res.json())
+            .then(data => {
+                if (!data.success) {
+                    alert('顧客情報の取得に失敗しました。');
+                    return;
+                }
+                const c = data.customer;
+                document.getElementById('company_name').textContent = c.company_name;
+                document.getElementById('industry').textContent = c.industry;
+                document.getElementById('contact').textContent = c.contact;
+                document.getElementById('location').textContent = c.location;
+                document.getElementById('created_date').textContent = new Date(c.created_date).toLocaleString('ja-JP');
+                document.getElementById('updated_date').textContent = new Date(c.updated_date).toLocaleString('ja-JP');
+                document.getElementById('edit-btn').href = `update.html?customer_id=${customerId}`;
+            })
+            .catch(err => console.error(err));
+
+        document.getElementById('delete-btn').addEventListener('click', () => {
+            if (!confirm('この顧客を削除してもよいですか？')) return;
+            fetch(`${config.apiUrl}/customer-detail?customer_id=${customerId}`, {
+                method: 'DELETE'
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    alert('削除しました。');
+                    location.href = 'list.html';
+                } else {
+                    alert('削除に失敗しました。');
+                }
+            })
+            .catch(err => console.error(err));
+        });
+    </script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>
