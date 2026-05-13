@@ -1,5 +1,5 @@
 const config = {
-  apiUrl: 'http://localhost:5682'
+  apiUrl: '/api_masaya_ozaki'
 };
 
 export default config;
