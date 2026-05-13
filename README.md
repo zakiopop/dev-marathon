@@ -1,6 +1,4 @@
-﻿## 頑張って!!!!!
-
-### Docker
+﻿### Docker
 - pgadminコンテナ
 `pg`
 - posegresコンテナ(DB)
