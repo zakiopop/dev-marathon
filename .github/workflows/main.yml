@@ -1,0 +1,34 @@
+name: CI/CD Production
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    name: Stagingテスト
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Cypressテスト実行
+        uses: cypress-io/github-action@v6
+        with:
+          working-directory: test
+          config: baseUrl=${{ secrets.STAGING_URL }}
+
+  deploy:
+    name: Productionデプロイ
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - id: ssh
+        uses: invi5H/ssh-action@v1
+        with:
+          SSH_HOST: ${{ secrets.PROD_SSH_HOST }}
+          SSH_PORT: ${{ secrets.PROD_SSH_PORT }}
+          SSH_USER: ${{ secrets.PROD_SSH_USER }}
+          SSH_KEY: ${{ secrets.PROD_SSH_KEY }}
+
+      - run: ssh ${{ steps.ssh.outputs.SERVER }} bash /app/masaya_ozaki/deploy.sh masaya_ozaki
