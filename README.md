@@ -36,8 +36,9 @@ gitHub Actions用のworkflow作成・実行
 
 - production環境にCD
 gitHub Actions用のworkflow作成・実行(本番用)
+Actionsの設定
 
-- バッチ処理作成
+- バッチ処理作成（本番想定）
 シェルスクリプト作成
 `cron`
 
