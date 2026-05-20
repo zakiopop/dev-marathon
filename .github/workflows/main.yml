@@ -16,7 +16,7 @@ jobs:
         uses: cypress-io/github-action@v6
         with:
           working-directory: test
-          config: baseUrl=${{ secrets.PROD_SSH_HOST }}
+          config: baseUrl=${{ secrets.STAGING_URL }}
 
   deploy:
     name: Productionデプロイ
